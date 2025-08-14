@@ -9,13 +9,16 @@ namespace STServo
 
     public:
         ServoBase() : _pin(-1) {}
-        void attach(int pin);
+        void attach(int pin){ _pin = pin; };
+        void detach(){ _pin = -1; };
     };
 
     class ServoWheel : public ServoBase
     {
     public:
         ServoWheel();
+        void driveCW();
+        void driveCCW();
 
     };
 
