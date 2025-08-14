@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <servo.h>
 
 void setup() {
   Serial.begin(115200);
@@ -6,6 +7,6 @@ void setup() {
 }
 
 void loop() {
-  
+
   // put your main code here, to run repeatedly:
 }
