@@ -13,4 +13,6 @@ private:
     STServo::ServoJoint _neckJoint;
 
 public:
+    StackTank();
+    void init();
 };

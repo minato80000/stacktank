@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "Avatar.h"
-#include "stacktank.h"
+#include "StackTank.h"
 
 m5avatar::Avatar _avatar;
 const m5avatar::Expression expressions[] = {m5avatar::Expression::Angry, m5avatar::Expression::Sleepy,
@@ -12,6 +12,7 @@ void setup()
   Serial.begin(115200);
   M5.begin();
   _avatar.init(8);
+  
 }
 
 void loop()
