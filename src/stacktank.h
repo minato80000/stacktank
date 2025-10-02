@@ -1,18 +1,23 @@
 #pragma once
-#include "Servo.h"
+#include <ESP32Servo.h>
 
-#define LEFT_WHEEL_PIN 22
-#define RIGHT_WHEEL_PIN 20
-#define NECK_JOINT_PIN 4
+#define LEFT_WHEEL_PIN 7
+#define RIGHT_WHEEL_PIN 1
+#define NECK_JOINT_PIN 8
 
 class StackTank
 {
 private:
-    STServo::ServoWheel _leftWheel;
-    STServo::ServoWheel _rightWheel;
-    STServo::ServoJoint _neckJoint;
+    Servo _leftWheel;
+    Servo _rightWheel;
+    Servo _neckJoint;
 
 public:
     StackTank();
     void init();
-};
+    void moveForward();
+    void moveBackward();
+    void turnLeft();
+    void turnRight();
+    void stop();
+};  
