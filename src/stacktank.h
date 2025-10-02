@@ -15,6 +15,9 @@ private:
 public:
     StackTank();
     void init();
+    void lookUp();
+    void lookDown();
+    void lookNeutral();
     void moveForward();
     void moveBackward();
     void turnLeft();

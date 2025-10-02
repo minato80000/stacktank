@@ -8,8 +8,23 @@ void StackTank::init()
 {
     _leftWheel.attach(LEFT_WHEEL_PIN, 700, 2300);
     _rightWheel.attach(RIGHT_WHEEL_PIN, 700, 2300);
-    //_neckJoint.attach(NECK_JOINT_PIN, 500, 2400);
+    _neckJoint.attach(NECK_JOINT_PIN, 500, 2400);
+    lookNeutral(); // 首を中立位置に設定
 }
+
+void StackTank::lookUp()
+{
+    _neckJoint.write(90); // 首を上に向ける
+}
+
+void StackTank::lookDown(){
+    _neckJoint.write(0); // 首を下に向ける
+}
+
+void StackTank::lookNeutral(){
+    _neckJoint.write(45); // 首を中立位置に戻す
+}
+
 
 void StackTank::moveForward()
 {
