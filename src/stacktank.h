@@ -11,6 +11,8 @@ private:
     Servo _leftWheel;
     Servo _rightWheel;
     Servo _neckJoint;
+    int _leftWheelChannel;
+    int _rightWheelChannel;
 
 public:
     StackTank();
@@ -18,9 +20,10 @@ public:
     void lookUp();
     void lookDown();
     void lookNeutral();
+    void lookRandom(int lower=30, int upper=80);
     void moveForward();
     void moveBackward();
-    void turnLeft();
-    void turnRight();
+    void turnLeft(int angle);
+    void turnRight(int angle);
     void stop();
 };  
