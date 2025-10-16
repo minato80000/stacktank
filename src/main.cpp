@@ -4,7 +4,6 @@
 #include "STBLE.h"
 #include "move_test.h"
 
-
 m5avatar::Avatar avatar;
 StackTank stacktank;
 
@@ -16,42 +15,27 @@ void lookRandomMode()
     M5.update();
     if (M5.BtnA.wasPressed())
     {
-      avatar.setSpeechText("");//長押ししないと止まらないので要改善
+      avatar.setSpeechText(""); // 長押ししないと止まらないので要改善
       break;
     }
     int turnAngle = random(45);
     int delaytime = random(10);
 
-    stacktank.lookRandom(30, 80);
+    // stacktank.lookRandom(30, 80);
     stacktank.turnLeft(turnAngle);
-    delay(5000 + 500 * delaytime);
-
-    stacktank.lookRandom(30, 80);
     stacktank.turnRight(turnAngle);
-    delay(5000 + 500 * delaytime);
+    delay(2000 + 500 * delaytime);
   }
 }
 
-void controlMode()
-{
-  avatar.setSpeechText("control mode");
-  for (;;)
-  {
-    M5.update();
-    if (M5.BtnB.wasPressed())
-    {
-      avatar.setSpeechText("");//長押ししないと止まらないので要改善
-      break;
-    }
-    
-  }
-}
+
 
 void setup()
 {
   Serial.begin(115200);
   M5.begin();
   avatar.init(8);
+  avatar.setBatteryIcon(true);
   stacktank.init();
   setupBLE();
 }
@@ -59,16 +43,15 @@ void setup()
 void loop()
 {
   M5.update();
-  if (M5.BtnA.wasPressed())
+  
+
+
+  static uint32_t last = 0;
+  if (millis() - last > 2000) // バッテリの状態更新
   {
-    lookRandomMode();
-  }
-  if (M5.BtnB.wasPressed())
-  {
-    controlMode();
-  }
-  if (M5.BtnC.wasPressed())
-  {
-    stacktank.lookNeutral();
+    last = millis();
+    const bool charging = M5.Power.isCharging();
+    const int lvl = M5.Power.getBatteryLevel(); // 0,25,50,75,100等の段階
+    avatar.setBatteryStatus(charging, lvl);
   }
 }

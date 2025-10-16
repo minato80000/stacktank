@@ -1,5 +1,7 @@
 #pragma once
 #include <ESP32Servo.h>
+#include <ServoTasks.h>
+#include <Arduino.h>
 
 #define LEFT_WHEEL_PIN 7
 #define RIGHT_WHEEL_PIN 1
@@ -26,4 +28,4 @@ public:
     void turnLeft(int angle);
     void turnRight(int angle);
     void stop();
-};  
+};

@@ -1,4 +1,5 @@
 #include "StackTank.h"
+#include <Arduino.h>
 
 StackTank::StackTank()
 {
@@ -6,8 +7,8 @@ StackTank::StackTank()
 
 void StackTank::init()
 {
-    _leftWheelChannel = _leftWheel.attach(LEFT_WHEEL_PIN, 700, 2300);
-    _rightWheelChannel = _rightWheel.attach(RIGHT_WHEEL_PIN, 700, 2300);
+    _leftWheelChannel = _leftWheel.attach(LEFT_WHEEL_PIN, 500, 2400);
+    _rightWheelChannel = _rightWheel.attach(RIGHT_WHEEL_PIN, 500, 2400);
     _neckJoint.attach(NECK_JOINT_PIN, 500, 2400);
     lookNeutral(); // 首を中立位置に設定
 }
@@ -37,32 +38,35 @@ void StackTank::stop()
 {
     ledcWrite(_leftWheelChannel, 0);  // サーボを停止
     ledcWrite(_rightWheelChannel, 0); // サーボを停止
+    _state = Stopped;
+    _moveEndMillis = 0;
 }
 
 void StackTank::moveForward()
 {
-    _leftWheel.writeMicroseconds(2000);  // 左車輪を前進方向に回転
-    _rightWheel.writeMicroseconds(1000); // 右車輪を前進方向に回転
+    _leftWheel.write(180); // 左車輪を前進方向に回転
+    _rightWheel.write(0);  // 右車輪を前進方向に回転
 }
 
 void StackTank::moveBackward()
 {
-    _leftWheel.writeMicroseconds(1000);  // 左車輪を後退方向に回転
-    _rightWheel.writeMicroseconds(2000); // 右車輪を後退方向に回転
+    _leftWheel.writeMicroseconds(0);    // 左車輪を後退方向に回転
+    _rightWheel.writeMicroseconds(180); // 右車輪を後退方向に回転
 }
 
 void StackTank::turnLeft(int angle)
 {
-    _leftWheel.writeMicroseconds(1000);  // 左車輪を後退方向に回転
-    _rightWheel.writeMicroseconds(1000); // 右車輪を前進方向に回転
-    delay(angle * 7);                    // 指定された角度に応じて回転時間を調整]
-    this->stop();
+    // 非ブロッキング: 動かして終了時刻だけ設定する
+    _leftWheel.write(0);  // 左車輪を後退方向に回転
+    _rightWheel.write(0); // 右車輪を前進方向に回転
+    delay(8 * angle);
+    stop();
 }
 
 void StackTank::turnRight(int angle)
 {
-    _leftWheel.writeMicroseconds(2000);  // 左車輪を前進方向に回転
-    _rightWheel.writeMicroseconds(2000); // 右車輪を後退方向に回転
-    delay(angle * 7);                    // 指定された角度に応じて回転時間を調整
-    this->stop();
+    _leftWheel.write(180);  // 左車輪を前進方向に回転
+    _rightWheel.write(180); // 右車輪を後退方向に回転
+    delay(8 * angle);
+    stop();
 }

@@ -302,23 +302,6 @@ void setupBLE()
 {
     NimBLEDevice::init("NimBLE-Client");
 
-    /**
-     * Set the IO capabilities of the device, each option will trigger a different pairing method.
-     *  BLE_HS_IO_KEYBOARD_ONLY   - Passkey pairing
-     *  BLE_HS_IO_DISPLAY_YESNO   - Numeric comparison pairing
-     *  BLE_HS_IO_NO_INPUT_OUTPUT - DEFAULT setting - just works pairing
-     */
-    // NimBLEDevice::setSecurityIOCap(BLE_HS_IO_KEYBOARD_ONLY); // use passkey
-    // NimBLEDevice::setSecurityIOCap(BLE_HS_IO_DISPLAY_YESNO); //use numeric comparison
-
-    /**
-     * 2 different ways to set security - both calls achieve the same result.
-     *  no bonding, no man in the middle protection, BLE secure connections.
-     *  These are the default values, only shown here for demonstration.
-     */
-    // NimBLEDevice::setSecurityAuth(false, false, true);
-    // NimBLEDevice::setSecurityAuth(BLE_SM_PAIR_AUTHREQ_BOND | BLE_SM_PAIR_AUTHREQ_MITM | BLE_SM_PAIR_AUTHREQ_SC);
-
     /** Optional: set the transmit power */
     NimBLEDevice::setPower(3); /** 3dbm */
     NimBLEScan *pScan = NimBLEDevice::getScan();
@@ -339,26 +322,4 @@ void setupBLE()
     /** Start scanning for advertisers */
     pScan->start(scanTimeMs);
     Serial.printf("Scanning for peripherals\n");
-}
-
-void loop()
-{
-    /** Loop here until we find a device we want to connect to */
-    delay(10);
-
-    if (doConnect)
-    {
-        doConnect = false;
-        /** Found a device we want to connect to, do it now */
-        if (connectToServer())
-        {
-            Serial.printf("Success! we should now be getting notifications, scanning for more!\n");
-        }
-        else
-        {
-            Serial.printf("Failed to connect, starting scan\n");
-        }
-
-        NimBLEDevice::getScan()->start(scanTimeMs, false, true);
-    }
 }
